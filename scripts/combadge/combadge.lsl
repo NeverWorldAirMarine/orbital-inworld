@@ -21,6 +21,7 @@
 
 //User configurable Global Variables
 string POST_URL = "https://orbital.omega-grid.org/modules/api/commlink.php";
+integer DEBUG = FALSE;
 integer COMM_CHANNEL = 55;
 
 // Internal Global Variables
