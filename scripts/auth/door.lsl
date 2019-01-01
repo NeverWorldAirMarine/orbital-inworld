@@ -22,22 +22,22 @@
 key authrequest;
 key user;
 integer gListener; // Dialog listeners
+vector axis;
+rotation closedRot;
+rotation openRot;
+integer swinging;
+integer open;
 
 // Configurable Settings
 string authurl = "https://nwamgroup.com/app/modules/api/auth.php";
- float openingTime=2.0;      // in seconds
- float openingAngle=85.0;    // in degrees
- float autocloseTime=5.0;    // in seconds
- integer steps=1;            // number of internal rotation steps
- integer useOmega=TRUE; 
- float omega=0.0;
-  
- vector axis;
- rotation closedRot;
- rotation openRot;
-  
- integer swinging;
- integer open;
+float openingTime=2.0;      // in seconds
+float openingAngle=85.0;    // in degrees
+float autocloseTime=5.0;    // in seconds
+integer steps=1;            // number of internal rotation steps
+integer useOmega=TRUE; 
+float omega=0.0;
+integer required = 255;
+
   
 // Code
  openDoor(integer yes)
@@ -159,11 +159,21 @@ default
                     string rank = llList2String( result, 1 );
                     string name = llList2String( result, 2 );
                     string division = llList2String( result, 3 );
+                    integer permission = (integer)llList2String( result, 4 );
                     string dname = llRequestDisplayName( user );
-                    llSay( 0, "Access Granted. Welcome, " + rank + " " + name + ".\nDivision: " + division);
-                    go();
-                    llSleep(5);
-                    state default;
+                    if(permission >= required)
+                    {
+                        llSay( 0, "Access Granted. Welcome, " + rank + " " + name + ".\nDivision: " + division);
+                        go();
+                        llSleep(5); 
+                        state default;
+                    }
+                    else
+                    {
+                        llSay(0, "Access Denied, You Do Not Have the Required Access Level to Enter this Area");
+                        llSleep(5);
+                        state default;
+                    }
                 }
                 else if ( status == "ERROR" )
                 {
