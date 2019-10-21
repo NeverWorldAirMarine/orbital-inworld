@@ -1,5 +1,5 @@
 /*
-* Copyright 2019 NWAM
+* Copyright 2019 United Federation Starfleet
 *
 *   Licensed under the Apache License, Version 2.0 (the "License");
 *   you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 */
 
 // User configurable variables.
-string TAG_PAGE = "https://nwamgroup.com/app/modules/api/tag.php";
+string TAG_PAGE = "https://astraios.vortexapp.tk/modules/api/tag.php";
 string HTTP_ERROR = "An unexpected error occured while attempting to lookup a title.";
 
 // Variable Init
