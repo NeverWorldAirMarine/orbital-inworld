@@ -1,5 +1,5 @@
 /*
-* Copyright 2019 NWAM
+* Copyright 2020 United Federation Starfleet
 *
 *   Licensed under the Apache License, Version 2.0 (the "License");
 *   you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 
 
 //User configurable Global Variables
-string POST_URL = "https://orbital.omega-grid.org/modules/api/commlink.php";
+string POST_URL = "https://astraios.vortexapp.tk/modules/api/commlink.php";
 integer DEBUG = FALSE;
 integer COMM_CHANNEL = 55;
 
