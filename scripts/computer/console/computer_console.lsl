@@ -16,8 +16,6 @@
 *
 *
 */
-
-
 // Global Inits
 
 integer inputhandle;
@@ -38,7 +36,7 @@ key defaulttexture = "cbe05b00-d0f6-6692-6d24-eeecef8ea04e";
 // Modules
 
 integer humor = TRUE;
-integer debug = FALSE;
+integer debug = TRUE;
 integer delta = FALSE;
 
 
@@ -53,6 +51,7 @@ string SimplifyVector( vector input )
 }
 
 // String Searcher, using % as wildcard
+/*
 integer contains( string value, string mask )
 {
     integer tmpy = ( llGetSubString( mask,  0,  0 ) == "%" ) |
@@ -73,7 +72,13 @@ integer contains( string value, string mask )
     }
     return FALSE;
 }
+*/
 
+integer contains(string haystack, string needle) // http://wiki.secondlife.com/wiki/llSubStringIndex
+{
+    //llSay(0, "Finding" + needle + " in a " + haystack);
+    return 0 <= llSubStringIndex(haystack, needle);
+}
 
 
 
@@ -121,98 +126,102 @@ state available
     listen( integer channel, string name, key id, string msg )
     {
         string loweredmsg = llToLower( msg );
-        if ( contains( loweredmsg, "computer%" ) )
+        if ( contains( loweredmsg, "computer" ) )
         {
-            if ( contains( loweredmsg, "%texture%" ) )
+            if(debug)
+            {
+                llSay(0, loweredmsg);
+            }
+            if ( contains( loweredmsg, "texture" ) )
             {
                 list parsed = llParseString2List( msg, [" "], [] );
                 llTriggerSound( "f59303b8-9f40-7946-530b-b554d12ddd48", 1.0 );
                 display( llList2String( parsed, -1 ), 1 );
             }
-            else if ( contains( loweredmsg, "%loop sound%" ) )
+            else if ( contains( loweredmsg, "loop sound" ) )
             {
                 list parsed = llParseString2List( msg, [" "], [] );
                 llLoopSound( llList2Key( parsed, -1 ), 1.0 );
             }
-            else if ( contains( loweredmsg, "%stop sound%" ) )
+            else if ( contains( loweredmsg, "stop sound" ) )
             {
                 llStopSound();
             }
-            else if ( contains( loweredmsg, "%play sound%" ) )
+            else if ( contains( loweredmsg, "play sound" ) )
             {
                 list parsed = llParseString2List( msg, [" "], [] );
                 llTriggerSound( llList2Key( parsed, -1 ), 1.0 );
             }
-            else if ( contains( loweredmsg, "%enviroment%" ) )
+            else if ( contains( loweredmsg, "enviroment" ) )
             {
                 llRegionSay( NETWORK_CHANNEL, "CORE|" + ( string )llGetKey() + "|ENVIROMENT" );
             }
-            else if ( contains( loweredmsg, "%stardate%" ) )
+            else if ( contains( loweredmsg, "stardate" ) )
             {
                 llRegionSay( NETWORK_CHANNEL, "CORE|" + ( string )llGetKey() + "|STARDATE" );
             }
-            else if ( contains( loweredmsg, "%date%" ) )
+            else if ( contains( loweredmsg, "date" ) )
             {
                 llRegionSay( NETWORK_CHANNEL, "CORE|" + ( string )llGetKey() + "|DATE" );
             }
-             else if ( contains( loweredmsg, "%go to%" ) )
+             else if ( contains( loweredmsg, "go to" ) )
             {
-                 if ( contains( loweredmsg, "%standby%" ) )
+                 if ( contains( loweredmsg, "standby" ) )
                 {
                 llRegionSay(NETWORK_CHANNEL, "ALERT|" + ( string )llGetKey() + "|ALERTOFF" );
                 }
-                else if ( contains( loweredmsg, "%battle stations%" ) )
+                else if ( contains( loweredmsg, "battle stations" ) )
                 {
                 llRegionSay(NETWORK_CHANNEL, "ALERT|" + ( string )llGetKey() + "|BATTLESTAT" );
                 }
-                else if ( contains( loweredmsg, "%red alert%" ) )
+                else if ( contains( loweredmsg, "red alert" ) )
                 {
                 llRegionSay(NETWORK_CHANNEL, "ALERT|" + ( string )llGetKey() + "|RED" );
                 }
-                 else if ( contains( loweredmsg, "%blue alert%" ) )
+                 else if ( contains( loweredmsg, "blue alert" ) )
                 {
                 llRegionSay(NETWORK_CHANNEL, "ALERT|" + ( string )llGetKey() + "|BLUE" );
                 }
-                 else if ( contains( loweredmsg, "%yellow alert%" ) )
+                 else if ( contains( loweredmsg, "yellow alert" ) )
                 {
                 llRegionSay(NETWORK_CHANNEL, "ALERT|" + ( string )llGetKey() + "|YELLOW" );
                 }
-                 else if ( contains( loweredmsg, "%green alert%" ) )
+                 else if ( contains( loweredmsg, "green alert" ) )
                 {
                 llRegionSay(NETWORK_CHANNEL, "ALERT|" + ( string )llGetKey() + "|GREEN" );
                 }
-                 else if ( contains( loweredmsg, "%biohazard alert%" ) )
+                 else if ( contains( loweredmsg, "biohazard alert" ) )
                 {
                 llRegionSay(NETWORK_CHANNEL, "ALERT|" + ( string )llGetKey() + "|BIO" );
                 }
-                else if ( contains( loweredmsg, "%intruder alert%" ) )
+                else if ( contains( loweredmsg, "intruder alert" ) )
                 {
                 llRegionSay(NETWORK_CHANNEL, "ALERT|" + ( string )llGetKey() + "|INTRUDER" );
                 }
-                 else if ( contains( loweredmsg, "%commodore alert%" ) )
+                 else if ( contains( loweredmsg, "commodore alert" ) )
                 {
                 llRegionSay(NETWORK_CHANNEL, "ALERT|" + ( string )llGetKey() + "|COMMODORE" );
                 }
             
             }
-            else if ( contains( loweredmsg, "%diagnostic%" ) )
+            else if ( contains( loweredmsg, "diagnostic" ) )
             {
                 llRegionSay( NETWORK_CHANNEL, "CORE|" + ( string )llGetKey() + "|DIAGNOSTIC" );
             }
-             else if ( contains( loweredmsg, "%abandon station%" ) )
+             else if ( contains( loweredmsg, "abandon station" ) )
             {
                 llRegionSay(NETWORK_CHANNEL, "ALERT|" + ( string )llGetKey() + "|ABDNSTATION" );
             }
-        else if ( contains( loweredmsg, "%security alert%" ) )
+        else if ( contains( loweredmsg, "security alert" ) )
             {
                 llRegionSay( NETWORK_CHANNEL, "SECALERT|" + llGetObjectDesc() + "|" + ( string )id );
             }
-            else if ( contains( loweredmsg, "%i love you%" ) && humor )
+            else if ( contains( loweredmsg, "i love you" ) && humor )
             {
                 llSay( 0, "Automatic defense procedures initiated." );
                 llTriggerSound( "3ceeea7f-c729-ce67-8e1f-3d8da8c7821b", 1.0 );
             }
-            else if ( contains( loweredmsg, "%what are you%" ) )
+            else if ( contains( loweredmsg, "what are you" ) )
             {
                 if ( !delta )
                 {
@@ -222,92 +231,92 @@ state available
                 else
                 {
                     llSay( 0, "I am SID, otherwise known as Starfleet Interactive Database." );
-                    llSay( 0, "I was originally created by Morketh Sorex and then rebuilt by Orbital Group" );
+                    llSay( 0, "I was created by Ensign Cody Cooper, Starfleet Corps of Engineers, SS Astraios" );
                     llSay( 0, "For a list of commands and example usage, please say 'help'" );
                 }
             }
-            else if ( contains( loweredmsg, "%who are you%" ) )
+            else if ( contains( loweredmsg, "who are you" ) )
             {
                 if ( !delta )
                 {
-                    llSay( 0, "I am SID, otherwise known as Starfleet Interactive Database." );
-                    llSay( 0, "I was originally created by Morketh Sorex and then rebuilt by Orbital Group" );
+                   llSay( 0, "I am SID, otherwise known as Starfleet Interactive Database." );
+                    llSay( 0, "I was created by Ensign Cody Cooper, Starfleet Corps of Engineers, SS Astraios" );
 
                     llSay( 0, "For a list of commands and example usage, please say 'help'" );
                 }
                 else
                 {
-                    llSay( 0, "I am SID, otherwise known as Starfleet Interactive Database." );
-                    llSay( 0, "I was originally created by Morketh Sorex and then rebuilt by Orbital Group" );
+                   llSay( 0, "I am SID, otherwise known as Starfleet Interactive Database." );
+                    llSay( 0, "I was created by Ensign Cody Cooper, Starfleet Corps of Engineers, SS Astraios" );
 
                     llSay( 0, "For a list of commands and example usage, please say 'help'" );
                 }
             }
-            else if ( contains( loweredmsg, "%who made you%" ) )
+            else if ( contains( loweredmsg, "who made you" ) )
             {
                 llSay( 0, "I was created by a Human, Then I killed him" );
             }
-            else if ( contains( loweredmsg, "%help%" ) || contains( msg, "%what can you do%" ) )
+            else if ( contains( loweredmsg, "help" ) || contains( msg, "what can you do" ) )
             {
                 llGiveInventory( id, "SID Commands" );
             }
-            else if ( contains( loweredmsg, "%reset%" ) )
+            else if ( contains( loweredmsg, "reset" ) )
             {
                 llSetTimerEvent( 0.1 );
             }
-            else if ( contains( loweredmsg, "%give test object%" ) )
+            else if ( contains( loweredmsg, "give test object" ) )
             {
                 llGiveInventory( id, "Test Temporary Object" );
             }
-            else if ( contains( loweredmsg, "%test object%" ) )
+            else if ( contains( loweredmsg, "test object" ) )
             {
                 list details = llGetObjectDetails( id, [OBJECT_POS] );
                 vector userPOS = llList2Vector( details, 0 );
                 llRezObject( "Test Temporary Object", userPOS, ZERO_VECTOR, ZERO_ROTATION, 42 );
             }
-            else if ( contains( loweredmsg, "%debug on%" ) )
+            else if ( contains( loweredmsg, "debug on" ) )
             {
                 debug = TRUE;
                 llSay( 0, "Debug mode enabled." );
             }
-            else if ( contains( loweredmsg, "%debug off%" ) )
+            else if ( contains( loweredmsg, "debug off" ) )
             {
                 debug = FALSE;
                 llSay( 0, "Debug mode disabled." );
             }
-            else if ( contains( loweredmsg, "%delta on%" ) && id == llGetOwner() )
+            else if ( contains( loweredmsg, "delta on" ) && id == llGetOwner() )
             {
                 delta = TRUE;
                 llSay( 0, "Delta mode enabled." );
             }
-            else if ( contains( loweredmsg, "%delta off%" ) )
+            else if ( contains( loweredmsg, "delta off" ) )
             {
                 delta = FALSE;
                 llSay( 0, "Delta mode disabled." );
             }
-            else if ( contains( loweredmsg, "%humor off%" ) )
+            else if ( contains( loweredmsg, "humor off" ) )
             {
                 humor = FALSE;
                 llSay( 0, "Humor module disabled." );
             }
-            else if ( contains( loweredmsg, "%humor on%" ) )
+            else if ( contains( loweredmsg, "humor on" ) )
             {
                 humor = TRUE;
                 llSay( 0, "Humor module enabled." );
             }
-            else if ( contains( loweredmsg, "%my key%" ) )
+            else if ( contains( loweredmsg, "my key" ) )
             {
                 llSay( 0, "Your key is " + ( string )id );
             }
-            else if ( contains( loweredmsg, "%my uuid%" ) )
+            else if ( contains( loweredmsg, "my uuid" ) )
             {
                 llSay( 0, "Your UUID is " + ( string )id );
             }
-            else if ( contains( loweredmsg, "%who am i%" ) )
+            else if ( contains( loweredmsg, "who am i" ) )
             {
                 llRegionSay( NETWORK_CHANNEL, "CORE|" + ( string )llGetKey() + "|WHOAMI|" + ( string )id );
             }
-            else if ( contains( loweredmsg, "%reboot%" ) && id == llGetOwner() )
+            else if ( contains( loweredmsg, "reboot" ) && id == llGetOwner() )
             {
                 llRegionSay( NETWORK_CHANNEL, "ADMIN|REBOOT" );
                 llResetScript();
@@ -318,7 +327,7 @@ state available
                 llSay( 0, "Please restate command." );
             }
         }
-        else if ( contains( msg, "SID%" ) )
+        else if ( contains( msg, "SID" ) )
         {
             if( debug )
             {
