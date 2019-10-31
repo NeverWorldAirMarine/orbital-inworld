@@ -20,7 +20,7 @@
 */
 string  targetUrl      = "http://domaine.com/osguide/";
 string  terminal_name  = "Terminal";
-string  categorie_name = "Official location";
+string  category_name = "Official location";
 float   update_rate    = 300.0;
 integer display_debug  = FALSE;
 integer display_guide  = TRUE;
@@ -31,7 +31,7 @@ integer face           = ALL_SIDES;
 // 1 Official location
 // 3 Arts and culture
 // 4 Business
-// 5 Educationnal
+// 5 Educational
 // 6 Gaming
 // 7 Hangout
 // 8 Newcomer friendly
@@ -70,7 +70,7 @@ addRegionToDestinationGuide(string url)
     addRegionToDestinationGuideID = llHTTPRequest(targetUrl + "inc/terminal.php",
         [HTTP_METHOD, "POST", HTTP_MIMETYPE, "application/x-www-form-urlencoded", HTTP_BODY_MAXLENGTH, 16384],
         "terminal=register" + 
-        "&categorie_name=" + llEscapeURL(categorie_name) +
+        "&category_name=" + llEscapeURL(category_name) +
         "&http_server_url=" + llStringToBase64(http_server_url) + 
         // "&agents_online=" + agents_online +
         "&agents_list=" + llStringToBase64(llList2CSV(agents_list))
@@ -93,17 +93,17 @@ verify_region_parcel_owner()
 
     if (owner_uuid != parcel_owner_uuid)
     {
-        llOwnerSay("\nDésolé " + owner_uuid + ", la parcelle " + parcel_name + " ne t'appartient pas ...");
+        llOwnerSay("\nSorry, " + owner_uuid + ", the parcel " + parcel_name + " does not belong to you...");
 
         llInstantMessage(parcel_owner_uuid, 
             "[ALERT] " + osKey2Name(parcel_owner_uuid) + 
-            "\nUn object nomé \"" + llGetObjectName() + "\"" + 
-            " contenant un script nomé \"" + script_name + "\"" + 
-            " à été rezzer par " + owner_name + 
-            " sur la parcelle " + parcel_name + 
-            " de la région " + region_name +
-            " sur la grille " + osGetGridName() +
-            "\n[OBJET UUID] " + llGetKey() +
+            "\nA Object Named\"" + llGetObjectName() + "\"" + 
+            " containing a script named \"" + script_name + "\"" + 
+            " was rezzed by " + owner_name + 
+            " on the parcel" + parcel_name + 
+            " in the region " + region_name +
+            " on the grid " + osGetGridName() +
+            "\n[OBJECT UUID] " + llGetKey() +
             "\n[OWNER UUID] " + owner_uuid
         );
 
@@ -138,7 +138,7 @@ default
     {
         key toucher_uuid = llDetectedKey(0);
         if (toucher_uuid == owner_uuid) llSetTimerEvent(0.1);
-        else llRegionSayTo(toucher_uuid, PUBLIC_CHANNEL, "Onwer only " + osKey2Name(toucher_uuid) + " ...");
+        else llRegionSayTo(toucher_uuid, PUBLIC_CHANNEL, "Owner:  " + osKey2Name(toucher_uuid) + " ...");
     }
 
     http_request(key id, string method, string body)
@@ -214,15 +214,15 @@ default
 
         if (body == "HOST_RESTRICTION")
         {
-            body  = "\n* Votre \"host\" n'est pas autorisé à utiliser ce guide ...";
-            body += "\n* La région \"" + region_name + "\" n'a pas été ajoutées ...";
+            body  = "\n* Your\"host\" is not allowed to use this directory...";
+            body += "\n* The Region \"" + region_name + "\" has not been added...";
             llOwnerSay("[WARNING] " + owner_name + body);
         }
 
         if (body == "UUID_RESTRICTION")
         {
-            body  = "\n* La catégorie \"" + categorie_name + "\" est réservée ...";
-            body += "\n* La région \"" + region_name + "\" n'a pas été ajoutées ...";
+            body  = "\n* The Catagory \"" + categorie_name + "\"  is restricted...";
+            body += "\n* The Region \"" + region_name + "\"  has not been added ...";
             llOwnerSay("[WARNING] " + owner_name + body);
         }
     }
